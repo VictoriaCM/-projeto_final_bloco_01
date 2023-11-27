@@ -16,7 +16,8 @@ public class VeiculoController implements VeiculoRepository {
 	@Override
 	public void cadastrarVeiculo(Veiculo veiculo) {
 		listaVeiculos.add(veiculo);
-		System.out.println("Veículo Chassi número " + veiculo.getNumeroC() + " cadastrado com sucesso!");
+
+		System.out.println("Veículo número " + veiculo.getNumeroC() + " cadastrado com sucesso!");
 
 	}
 
@@ -33,20 +34,38 @@ public class VeiculoController implements VeiculoRepository {
 
 		if (veiculo.isPresent())
 			veiculo.get().visualizar();
+
 		else
-			System.out.println("Produto não encontrado!");
+			System.out.println("Número de cadastro" + numeroC + "não encontrado!");
 
 	}
 
 	@Override
 	public void atualizarVeiculo(Veiculo veiculo) {
-		// TODO Auto-generated method stub
+		var buscaVeiculo = buscarNaCollection(veiculo.getNumeroC());
 
+		if (buscaVeiculo != null) {
+			listaVeiculos.set(listaVeiculos.indexOf(buscaVeiculo.get()), veiculo);
+
+			System.out.println("\nDados do veículo atualizados com sucesso!");
+
+		} else
+			System.out.println("\nVeículo não foi encontrado!");
 	}
 
 	@Override
 	public void deletarVeiculo(int numeroC) {
-		//delet
+		Optional<Veiculo> veiculo = buscarNaCollection(numeroC);
+
+		if (veiculo.isPresent()) {
+			if (listaVeiculos.remove(veiculo.get()) == true) {
+
+				System.out.println("Veículo removido do catálogo com sucesso!");
+			}
+		} else {
+
+			System.out.println("Veículo não encontrado no catálogo!");
+		}
 
 	}
 
@@ -61,6 +80,11 @@ public class VeiculoController implements VeiculoRepository {
 	public int gerarId() {
 		return ++numeroC;
 
+	}
+
+	public int retornaTipo(int numeroC) {
+		Optional<Veiculo> veiculo = buscarNaCollection(numeroC);
+		return veiculo.get().getTipo();
 	}
 
 }

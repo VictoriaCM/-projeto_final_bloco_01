@@ -68,10 +68,10 @@ public abstract class Veiculo {
 		System.out.println("\n\n***********************************************************");
 		System.out.println("	Dados do Veículo	");
 		System.out.println("\n\n***********************************************************");
-		System.out.println("Número do Chassi do Veículo: " + this.numeroC);
+		System.out.println("Número de Cadastro do Veículo: " + this.numeroC);
 		System.out.println("Marca do Veículo: " + this.nomeMarca);
-		System.out.println("Tipo do Produto: " + tipo);
-		System.out.println("Preço do Produto: " + this.valor);
+		System.out.println("Tipo de Veículo: " + tipo);
+		System.out.println("Preço de Revenda (Tabela FIPE): " + this.valor);
 	}
 	
 }

@@ -1,7 +1,6 @@
 package auto_loja;
 
 import java.io.IOException;
-import auto_loja.model.Veiculo;
 import auto_loja.controller.VeiculoController;
 import auto_loja.model.Carro;
 import auto_loja.model.Moto;
@@ -13,14 +12,14 @@ import auto_loja.util.*;
 
 public class Menu {
 
-	static Scanner sc = new Scanner(System.in);
-
 	public static void main(String[] args) {
-
+		
+		Scanner sc = new Scanner(System.in);
+      
 		VeiculoController veiculos = new VeiculoController();
 
 		int opcao, numeroC, tipo;
-		String nomeMarca, modeloCar, modeloMot;
+		String nomeMarca, modeloCar, modeloMot, prosseg;
 		float valor;
 
 		while (true) {
@@ -34,7 +33,7 @@ public class Menu {
 			System.out.println("                                                     ");
 			System.out.println("            1 - Cadastrar veiculo                    ");
 			System.out.println("            2 - Listar todos                         ");
-			System.out.println("            3 - Buscar Veículo por Chassi            ");
+			System.out.println("            3 - Buscar Veículo por número de Cadastro");
 			System.out.println("            4 - Atualizar Dados do Veículo           ");
 			System.out.println("            5 - Excluir Veículo                      ");
 			System.out.println("            6 - Sair                                 ");
@@ -43,18 +42,16 @@ public class Menu {
 			System.out.println("Entre com a opção desejada:                          ");
 			System.out.println("                                                     " + Cores.TEXT_RESET);
 
-			opcao = sc.nextInt();
-
 			try {
 				opcao = sc.nextInt();
 			} catch (InputMismatchException e) {
 				System.out.println("\nDigite valores inteiros!");
 				sc.nextLine();
-				opcao = 0;
+				opcao = 100;
 			}
 
 			if (opcao == 6) {
-				System.out.println(Cores.TEXT_WHITE_BOLD + "\nAuto Store - revendas!");
+				System.out.println("\nAuto Store - Revendas!");
 				sobre();
 				sc.close();
 				System.exit(0);
@@ -62,7 +59,7 @@ public class Menu {
 
 			switch (opcao) {
 			case 1:
-				System.out.println(Cores.TEXT_WHITE + "Cadastrar Veículo\n\n");
+				System.out.println("Cadastrar Veículo\n\n");
 				System.out.print("Digite o tipo do produto (1-Carro / 2-Moto): ");
 				tipo = sc.nextInt();
 
@@ -93,36 +90,85 @@ public class Menu {
 				break;
 
 			case 2:
-				System.out.println(Cores.TEXT_WHITE + "Listar todos os Veículos\n\n");
+				System.out.println("Listar todos os Veículos\n\n");
 				veiculos.listarTodosVeiculos();
 
 				keyPress();
 				break;
 
 			case 3:
-				System.out.println(Cores.TEXT_WHITE + "Buscar Veículo por Chassi\n\n");
+				System.out.println("Buscar Veículo por número de Cadastro\n\n");
+				System.out.println("Digite o número de Cadastro do produto: ");
+				
 				numeroC = sc.nextInt();
+				
+				veiculos.consultarVeiculo(numeroC);
 
 				keyPress();
 				break;
 			case 4:
-				System.out.println(Cores.TEXT_WHITE + "Atualizar dados do Veículo\n\n");
+				System.out.println("Atualizar dados do Veículo\n\n");
 
-				System.out.print("Digite o Chassi do produto: ");
+				System.out.print("Digite o número de Cadastro do veículo: ");
 				numeroC = sc.nextInt();
+				
+				if (veiculos.buscarNaCollection(numeroC).isPresent()) {
+					System.out.println("Digite os novos dados do Veículo: \n");
+					
+					System.out.print("Digite a marca do Veículo: ");
+					sc.skip("\\R?");
+					nomeMarca = sc.nextLine();
+					
+					System.out.print("Digite o preço do Veículo: ");
+					valor = sc.nextFloat();
+					
+					tipo = veiculos.retornaTipo(numeroC);
+					
+					switch(tipo){
+					case 1:
+						System.out.print("Nome do modelo do Carro: ");
+						sc.skip("\\R?");
+						modeloCar = sc.nextLine();
+						veiculos.atualizarVeiculo(new Carro(numeroC, tipo, nomeMarca, valor, modeloCar));
+						break;
+					case 2:
+						System.out.print("Nome  do modelo da Moto: ");
+						sc.skip("\\R?");
+						modeloMot = sc.nextLine();
+						veiculos.atualizarVeiculo (new Moto (numeroC, tipo, nomeMarca, valor, modeloMot));
+						break;
+					}
+					
+				}
 
 				keyPress();
 				break;
+				
 			case 5:
-				System.out.println(Cores.TEXT_WHITE + "Excluir Veículo\n\n");
+				System.out.println("Excluir Veículo\n\n");
+				
+				System.out.print("Digite o número de Cadastro do veículo: ");
+				numeroC = sc.nextInt();
+				veiculos.consultarVeiculo(numeroC);
+				
+				System.out.println("\nATENÇÃO");
+				System.out.println("Você está tentando  excluir o veículo do catálogo! Deseja prosseguir? (S/N)");
+				sc.skip("\\R?");
+				prosseg = sc.nextLine();
+				
+				if (prosseg.equalsIgnoreCase("S"))
+					veiculos.deletarVeiculo(numeroC);
+				else 
+					System.out.println("Produto não deletada");
 
 				keyPress();
 				break;
 
 			}
 
-		}
-	}
+				}
+			}
+		
 
 	public static void sobre() {
 		System.out.println(Cores.TEXT_BLACK_BOLD + Cores.ANSI_WHITE_BACKGROUND);
