@@ -2,7 +2,8 @@ package auto_loja;
 
 import java.io.IOException;
 import auto_loja.model.Veiculo;
-import  auto_loja.model.Carro;
+import auto_loja.controller.VeiculoController;
+import auto_loja.model.Carro;
 import auto_loja.model.Moto;
 
 import java.util.InputMismatchException;
@@ -16,8 +17,10 @@ public class Menu {
 
 	public static void main(String[] args) {
 
+		VeiculoController veiculos = new VeiculoController();
+
 		int opcao, numeroC, tipo;
-		String nomeMarca,modeloCar, modeloMot;
+		String nomeMarca, modeloCar, modeloMot;
 		float valor;
 
 		while (true) {
@@ -41,13 +44,13 @@ public class Menu {
 			System.out.println("                                                     " + Cores.TEXT_RESET);
 
 			opcao = sc.nextInt();
-			
+
 			try {
 				opcao = sc.nextInt();
-			}catch(InputMismatchException e){
+			} catch (InputMismatchException e) {
 				System.out.println("\nDigite valores inteiros!");
 				sc.nextLine();
-				opcao=0;
+				opcao = 0;
 			}
 
 			if (opcao == 6) {
@@ -61,57 +64,58 @@ public class Menu {
 			case 1:
 				System.out.println(Cores.TEXT_WHITE + "Cadastrar Veículo\n\n");
 				System.out.print("Digite o tipo do produto (1-Carro / 2-Moto): ");
-					tipo = sc.nextInt();
-					
+				tipo = sc.nextInt();
+
 				System.out.print("Digite a Marca do produto: ");
 				sc.skip("\\R?");
 				nomeMarca = sc.nextLine();
-				
+
 				System.out.println("Digite o Valor do Produto: ");
 				valor = sc.nextFloat();
-				
+
 				switch (tipo) {
 				case 1:
 					System.out.println("Nome do Modelo do Carro: ");
 					sc.skip("\\R?");
 					modeloCar = sc.nextLine();
-					
+					veiculos.cadastrarVeiculo(new Carro(veiculos.gerarId(), tipo, nomeMarca, valor, modeloCar));
+
 					break;
-				
 
 				case 2:
 					System.out.println("Nome do Modelo da Moto: ");
 					sc.skip("\\R?");
 					modeloMot = sc.nextLine();
-					
+					veiculos.cadastrarVeiculo(new Moto(veiculos.gerarId(), tipo, nomeMarca, valor, modeloMot));
+
 				}
 				keyPress();
 				break;
-				
+
 			case 2:
 				System.out.println(Cores.TEXT_WHITE + "Listar todos os Veículos\n\n");
-				
+				veiculos.listarTodosVeiculos();
+
 				keyPress();
 				break;
-				
+
 			case 3:
 				System.out.println(Cores.TEXT_WHITE + "Buscar Veículo por Chassi\n\n");
 				numeroC = sc.nextInt();
-				
+
 				keyPress();
 				break;
 			case 4:
 				System.out.println(Cores.TEXT_WHITE + "Atualizar dados do Veículo\n\n");
-				
+
 				System.out.print("Digite o Chassi do produto: ");
 				numeroC = sc.nextInt();
-				
-				
+
 				keyPress();
 				break;
 			case 5:
 				System.out.println(Cores.TEXT_WHITE + "Excluir Veículo\n\n");
-				
+
 				keyPress();
 				break;
 
@@ -124,12 +128,11 @@ public class Menu {
 		System.out.println(Cores.TEXT_BLACK_BOLD + Cores.ANSI_WHITE_BACKGROUND);
 		System.out.println("\n*********************************************************");
 		System.out.println("Projeto Desenvolvido por:  ");
-		System.out.println("Victória Maria de Moraes Cândido - victoria.candido.mm@gmail.com");
+		System.out.println("Victória Maria de Moraes Cândidop - victoria.candido.mm@gmail.com");
 		System.out.println("github.com/VictoriaCM");
 		System.out.println("*********************************************************");
 		System.out.println(Cores.TEXT_RESET);
 	}
-	
 
 	public static void keyPress() {
 
@@ -144,5 +147,5 @@ public class Menu {
 			System.out.println(Cores.TEXT_BLACK_BOLD + Cores.ANSI_WHITE_BACKGROUND
 					+ "Você pressionou uma tecla diferente de enter!");
 		}
-}
+	}
 }

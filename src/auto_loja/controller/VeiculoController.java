@@ -46,7 +46,7 @@ public class VeiculoController implements VeiculoRepository {
 
 	@Override
 	public void deletarVeiculo(int numeroC) {
-		// TODO Auto-generated method stub
+		//delet
 
 	}
 

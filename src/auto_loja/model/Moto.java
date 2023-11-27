@@ -4,7 +4,7 @@ public class Moto extends Veiculo {
 	
 	private String ModeloMot;
 
-	public Moto(int numeroC, int tipo, String nomeMarca, float valor) {
+	public Moto(int numeroC, int tipo, String nomeMarca, float valor, String modeloMot) {
 		super(numeroC, tipo, nomeMarca, valor);
 
 	}
