@@ -1,6 +1,11 @@
 package auto_loja;
 
 import java.io.IOException;
+import auto_loja.model.Veiculo;
+import  auto_loja.model.Carro;
+import auto_loja.model.Moto;
+
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import auto_loja.util.*;
@@ -11,7 +16,7 @@ public class Menu {
 
 	public static void main(String[] args) {
 
-		int opcao, tipo;
+		int opcao, numeroC, tipo;
 		String nomeMarca,modeloCar, modeloMot;
 		float valor;
 
@@ -36,6 +41,14 @@ public class Menu {
 			System.out.println("                                                     " + Cores.TEXT_RESET);
 
 			opcao = sc.nextInt();
+			
+			try {
+				opcao = sc.nextInt();
+			}catch(InputMismatchException e){
+				System.out.println("\nDigite valores inteiros!");
+				sc.nextLine();
+				opcao=0;
+			}
 
 			if (opcao == 6) {
 				System.out.println(Cores.TEXT_WHITE_BOLD + "\nAuto Store - revendas!");
@@ -77,18 +90,30 @@ public class Menu {
 				
 			case 2:
 				System.out.println(Cores.TEXT_WHITE + "Listar todos os Veículos\n\n");
-
+				
+				keyPress();
 				break;
+				
 			case 3:
 				System.out.println(Cores.TEXT_WHITE + "Buscar Veículo por Chassi\n\n");
-
+				numeroC = sc.nextInt();
+				
+				keyPress();
 				break;
 			case 4:
 				System.out.println(Cores.TEXT_WHITE + "Atualizar dados do Veículo\n\n");
-
+				
+				System.out.print("Digite o Chassi do produto: ");
+				numeroC = sc.nextInt();
+				
+				
+				keyPress();
 				break;
 			case 5:
 				System.out.println(Cores.TEXT_WHITE + "Excluir Veículo\n\n");
+				
+				keyPress();
+				break;
 
 			}
 
